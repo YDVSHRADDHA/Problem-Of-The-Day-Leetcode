@@ -1,5 +1,18 @@
 class Solution {
     public int rangeBitwiseAnd(int left, int right) {
+ int shift = 0;
+
+        // Keep shifting right until left and right are equal
+        while (left < right) {
+            left >>= 1;
+            right >>= 1;
+            shift++;
+        }
+
+        // Left shift back to get the final result
+        return left << shift;
+    }
+}
 /* 1st logic failed in time complexx!*/ 
 //         int andResult = left;
 //         while (left != right) {
@@ -33,9 +46,9 @@ class Solution {
 // }
 // 3rd
  
-        while (right > left) {
-            right = right & (right - 1);
-        }
-        return right & left;
-    }
-}
+//         while (right > left) {
+//             right = right & (right - 1);
+//         }
+//         return right & left;
+//     }
+// }
