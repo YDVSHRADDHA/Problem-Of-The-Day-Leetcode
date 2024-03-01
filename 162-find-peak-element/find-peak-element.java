@@ -1,17 +1,20 @@
 class Solution {
     public int findPeakElement(int[] nums) {
-    //   Binary Search : an algorithm that runs in O(log n) time.
-    int left = 0 , right = nums.length-1;
-
-    while(left < right){
-        int mid = (left + right)/2;
-        if(nums[mid] > nums[mid+1]){
-            right = mid;
+       int peak= findPeakDivideConquer(nums, 0, nums.length - 1);
+       return peak;
+}
+ public static int findPeakDivideConquer(int[] arr, int left, int right) {
+        if (left == right) {
+            return left;
         }
-        else{
-            left = mid + 1;
+
+        int mid = (left + right) / 2;
+
+        if (arr[mid] > arr[mid + 1]) {
+            return findPeakDivideConquer(arr, left, mid);
+        } else {
+            return findPeakDivideConquer(arr, mid + 1, right);
         }
     }
-    return left;
 }
-}
+ 
