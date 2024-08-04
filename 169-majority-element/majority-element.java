@@ -3,7 +3,7 @@ import java.util.Arrays;
 class Solution {
     public int majorityElement(int[] nums) {
 
-//   Approach 1: Using HashMap ---------------------------------------------------------------------------------------------------------------------------------------
+//   Approach 1: Using HashMap; Time Complexity of O(n) and Space Complexity of O(n) ------------------------------------------------------------------------------------------------------------------------ 
 // HashMap<Integer, Integer> countMap = new HashMap<>();
 //         int n = nums.length;
 //         int n1 = n / 2;
@@ -25,7 +25,7 @@ class Solution {
         
               
     
-// Approach 2: Using Sorting and Counting; O(n log n) time complexity. --------------------------------------------------------------------------------------------------------------------------------------      
+// Approach 2: Using Sorting and Counting; Time Complexity: O(n log n) & Space Complexity: O(1)------------------------------------------------------------------------------------------------------------------------      
         int n = nums.length;
         int n1 = n / 2;
         Arrays.sort(nums);
@@ -47,5 +47,8 @@ class Solution {
         }
 
         return majorityElement;
+
+        //  Could you solve the problem in linear time and in O(1) space? 
+
     }
 }
