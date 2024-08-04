@@ -4,24 +4,48 @@ class Solution {
     public int majorityElement(int[] nums) {
 
 //   Approach 1: Using HashMap ---------------------------------------------------------------------------------------------------------------------------------------
-HashMap<Integer, Integer> countMap = new HashMap<>();
+// HashMap<Integer, Integer> countMap = new HashMap<>();
+//         int n = nums.length;
+//         int n1 = n / 2;
+
+//         // Count occurrences of each element
+//         for (int num : nums) {
+//             countMap.put(num, countMap.getOrDefault(num, 0) + 1);
+//         }
+
+//         // Find the majority element
+//         for (int key : countMap.keySet()) {
+//             if (countMap.get(key) > n1) {
+//                 return key;
+//             }
+//         }
+
+//         // Since the problem guarantees a majority element, we should never reach here
+//         return -1;
+        
+              
+    
+// Approach 2: Using Sorting and Counting; O(n log n) time complexity. --------------------------------------------------------------------------------------------------------------------------------------      
         int n = nums.length;
         int n1 = n / 2;
+        Arrays.sort(nums);
 
-        // Count occurrences of each element
-        for (int num : nums) {
-            countMap.put(num, countMap.getOrDefault(num, 0) + 1);
-        }
+        int currentCount = 1;
+        int majorityElement = nums[0];
 
-        // Find the majority element
-        for (int key : countMap.keySet()) {
-            if (countMap.get(key) > n1) {
-                return key;
+        for (int i = 1; i < n; i++) {
+            if (nums[i] == nums[i - 1]) {
+                currentCount++;
+            } else {
+                currentCount = 1;
+            }
+
+            if (currentCount > n1) {
+                majorityElement = nums[i];
+                break;
             }
         }
 
-        // Since the problem guarantees a majority element, we should never reach here
-        return -1;
-  
+        return majorityElement;
     }
 }
