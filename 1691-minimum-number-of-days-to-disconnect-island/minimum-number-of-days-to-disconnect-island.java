@@ -70,5 +70,5 @@ class Solution {
 // <!-- Acknowledgement Note -->
 // <dialog open>
 //     Acknowledgement to    
-//     <a href="https://www.youtube.com/watch?v=zMqgIbLLsc4" target="_blank">Mazhar Imam Khan</a>, who inspired me to do this code. 
+//     <a href="https://www.youtube.com/watch?v=HCHpyAk1Ekw&t=188s" target="_blank">Mazhar Imam Khan</a>, who inspired me to do this code. 
 // </dialog>
