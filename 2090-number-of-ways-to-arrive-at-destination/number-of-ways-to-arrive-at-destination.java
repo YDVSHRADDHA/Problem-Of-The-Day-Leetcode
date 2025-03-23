@@ -1,60 +1,47 @@
-class Solution {
+import java.util.*;
 
+class Solution {
     public int countPaths(int n, int[][] roads) {
         final int MOD = 1_000_000_007;
 
-        // Build adjacency list
+        // Step 1: Build adjacency list
         List<List<int[]>> graph = new ArrayList<>();
         for (int i = 0; i < n; i++) {
             graph.add(new ArrayList<>());
         }
         for (int[] road : roads) {
-            int startNode = road[0], endNode = road[1], travelTime = road[2];
-            graph.get(startNode).add(new int[] { endNode, travelTime });
-            graph.get(endNode).add(new int[] { startNode, travelTime });
+            graph.get(road[0]).add(new int[]{road[1], road[2]});
+            graph.get(road[1]).add(new int[]{road[0], road[2]});
         }
 
-        // Min-Heap (priority queue) for Dijkstra
-        PriorityQueue<long[]> minHeap = new PriorityQueue<>(
-            Comparator.comparingLong(a -> a[0])
-        );
-
-        // Store shortest time to each node
+        // Step 2: Initialize Dijkstra's algorithm
+        PriorityQueue<long[]> minHeap = new PriorityQueue<>(Comparator.comparingLong(a -> a[0]));
         long[] shortestTime = new long[n];
-        Arrays.fill(shortestTime, Long.MAX_VALUE);
-        // Number of ways to reach each node in shortest time
         int[] pathCount = new int[n];
 
-        shortestTime[0] = 0; // Distance to source is 0
-        pathCount[0] = 1; // 1 way to reach node 0
+        Arrays.fill(shortestTime, Long.MAX_VALUE);
+        shortestTime[0] = 0;
+        pathCount[0] = 1;
 
-        minHeap.offer(new long[] { 0, 0 }); // {time, node}
+        minHeap.offer(new long[]{0, 0}); // {time, node}
 
+        // Step 3: Process nodes in priority queue
         while (!minHeap.isEmpty()) {
-            long[] top = minHeap.poll();
-            long currTime = top[0]; // Current shortest time
-            int currNode = (int) top[1];
+            long[] curr = minHeap.poll();
+            long currTime = curr[0];
+            int currNode = (int) curr[1];
 
-            // Skip outdated distances
-            if (currTime > shortestTime[currNode]) {
-                continue;
-            }
+            if (currTime > shortestTime[currNode]) continue; // Skip outdated times
 
             for (int[] neighbor : graph.get(currNode)) {
-                int neighborNode = neighbor[0], roadTime = neighbor[1];
+                int nextNode = neighbor[0], travelTime = neighbor[1];
 
-                // Found a new shortest path → Update shortest time and reset path count
-                if (currTime + roadTime < shortestTime[neighborNode]) {
-                    shortestTime[neighborNode] = currTime + roadTime;
-                    pathCount[neighborNode] = pathCount[currNode];
-                    minHeap.offer(
-                        new long[] { shortestTime[neighborNode], neighborNode }
-                    );
-                }
-                // Found another way with the same shortest time → Add to path count
-                else if (currTime + roadTime == shortestTime[neighborNode]) {
-                    pathCount[neighborNode] =
-                        (pathCount[neighborNode] + pathCount[currNode]) % MOD;
+                if (currTime + travelTime < shortestTime[nextNode]) {
+                    shortestTime[nextNode] = currTime + travelTime;
+                    pathCount[nextNode] = pathCount[currNode];
+                    minHeap.offer(new long[]{shortestTime[nextNode], nextNode});
+                } else if (currTime + travelTime == shortestTime[nextNode]) {
+                    pathCount[nextNode] = (pathCount[nextNode] + pathCount[currNode]) % MOD;
                 }
             }
         }
