@@ -26,29 +26,48 @@ class Solution {
               
     
 // Approach 2: Using Sorting and Counting; Time Complexity: O(n log n) & Space Complexity: O(1)------------------------------------------------------------------------------------------------------------------------      
-        int n = nums.length;
-        int n1 = n / 2;
-        Arrays.sort(nums);
+        // int n = nums.length;
+        // int n1 = n / 2;
+        // Arrays.sort(nums);
 
-        int currentCount = 1;
-        int majorityElement = nums[0];
+        // int currentCount = 1;
+        // int majorityElement = nums[0];
 
-        for (int i = 1; i < n; i++) {
-            if (nums[i] == nums[i - 1]) {
-                currentCount++;
-            } else {
-                currentCount = 1;
-            }
+        // for (int i = 1; i < n; i++) {
+        //     if (nums[i] == nums[i - 1]) {
+        //         currentCount++;
+        //     } else {
+        //         currentCount = 1;
+        //     }
 
-            if (currentCount > n1) {
-                majorityElement = nums[i];
-                break;
-            }
-        }
+        //     if (currentCount > n1) {
+        //         majorityElement = nums[i];
+        //         break;
+        //     }
+        // }
 
-        return majorityElement;
+        // return majorityElement;
 
         //  Could you solve the problem in linear time and in O(1) space? 
 
+            
+// Approach 3: Boyer-Moore Voting Algorithm (O(n) time, O(1) space)------------------------------------------------------------------------------------------------------------------------      
+ 
+        int candidate = nums[0];
+        int count = 0;
+
+        // Step 1: Find the potential majority element
+        for (int num : nums) {
+            if (count == 0) {
+                candidate = num;
+            }
+            count += (num == candidate) ? 1 : -1;
+        }
+
+        // Step 2: Return the candidate (Guaranteed to be majority)
+        return candidate;
     }
 }
+
+
+ 
