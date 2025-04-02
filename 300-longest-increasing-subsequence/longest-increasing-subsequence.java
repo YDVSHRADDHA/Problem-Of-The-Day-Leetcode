@@ -1,28 +1,21 @@
 import java.util.*;
 
-public class Solution {
+class Solution {
     public int lengthOfLIS(int[] nums) {
-        List<Integer> lis = new ArrayList<>();
+        List<Integer> lis = new ArrayList<>(); // List to maintain LIS elements
 
         for (int num : nums) {
-            int pos = Collections.binarySearch(lis, num); // Find the correct position
+            int pos = Collections.binarySearch(lis, num);
             if (pos < 0) {
-                pos = -pos - 1; // Convert to the correct insertion index
+                pos = -pos - 1; // Convert to insertion index
             }
 
             if (pos == lis.size()) {
-                lis.add(num); // Append if it's the largest element
+                lis.add(num); // Append if larger than last element
             } else {
-                lis.set(pos, num); // Replace to maintain the sequence
+                lis.set(pos, num); // Replace smaller element
             }
         }
-        
         return lis.size(); // Length of LIS
     }
-
-    // public static void main(String[] args) {
-    //     Solution sol = new Solution();
-    //     int[] nums = {10, 9, 2, 5, 3, 7, 101, 18};
-    //     System.out.println(sol.lengthOfLIS(nums)); // Output: 4
-    // }
 }
