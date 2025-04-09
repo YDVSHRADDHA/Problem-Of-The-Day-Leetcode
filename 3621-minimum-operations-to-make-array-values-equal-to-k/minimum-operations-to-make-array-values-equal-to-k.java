@@ -1,3 +1,5 @@
+// → "If any element is smaller than k → return -1 else count unique elements greater than k → that’s your answer (operations needed)."
+
 import java.util.*;
 
 class Solution {
