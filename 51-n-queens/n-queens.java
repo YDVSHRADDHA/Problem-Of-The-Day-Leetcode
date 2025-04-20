@@ -1,67 +1,59 @@
 class Solution {
+    List<List<String>> results = new ArrayList<>();
+    
     public List<List<String>> solveNQueens(int n) {
-       
         char[][] board = new char[n][n];
-        for (int i = 0; i < n; i++)
-            for (int j = 0; j < n; j++)
-                board[i][j] = '.';
-        List < List < String >> res = new ArrayList < List < String >> ();
-        dfs(0, board, res);
-        return res;
+        
+        // Initialize board with '.'
+        for (char[] row : board) Arrays.fill(row, '.');
+        
+        // Sets for constant time checks
+        Set<Integer> cols = new HashSet<>();
+        Set<Integer> diag1 = new HashSet<>(); // row - col
+        Set<Integer> diag2 = new HashSet<>(); // row + col
+        
+        backtrack(0, n, board, cols, diag1, diag2);
+        return results;
     }
 
-    static boolean validate(char[][] board, int row, int col) {
-        int duprow = row;
-        int dupcol = col;
-        while (row >= 0 && col >= 0) {
-            if (board[row][col] == 'Q') return false;
-            row--;
-            col--;
-        }
-
-        row = duprow;
-        col = dupcol;
-        while (col >= 0) {
-            if (board[row][col] == 'Q') return false;
-            col--;
-        }
-
-        row = duprow;
-        col = dupcol;
-        while (col >= 0 && row < board.length) {
-            if (board[row][col] == 'Q') return false;
-            col--;
-            row++;
-        }
-        return true;
-    }
-
-    static void dfs(int col, char[][] board, List < List < String >> res) {
-        if (col == board.length) {
-            res.add(construct(board));
+    private void backtrack(int row, int n, char[][] board,
+                           Set<Integer> cols,
+                           Set<Integer> diag1,
+                           Set<Integer> diag2) {
+        if (row == n) {
+            results.add(construct(board));
             return;
         }
 
-        for (int row = 0; row < board.length; row++) {
-            if (validate(board, row, col)) {
-                board[row][col] = 'Q';
-                dfs(col + 1, board, res);
-                board[row][col] = '.';
+        for (int col = 0; col < n; col++) {
+            int d1 = row - col;
+            int d2 = row + col;
+
+            if (cols.contains(col) || diag1.contains(d1) || diag2.contains(d2)) {
+                continue;
             }
+
+            // Place queen
+            board[row][col] = 'Q';
+            cols.add(col);
+            diag1.add(d1);
+            diag2.add(d2);
+
+            backtrack(row + 1, n, board, cols, diag1, diag2);
+
+            // Remove queen (backtrack)
+            board[row][col] = '.';
+            cols.remove(col);
+            diag1.remove(d1);
+            diag2.remove(d2);
         }
     }
 
-
-
-    static List < String > construct(char[][] board) {
-        List < String > res = new LinkedList < String > ();
-        for (int i = 0; i < board.length; i++) {
-            String s = new String(board[i]);
-            res.add(s);
+    private List<String> construct(char[][] board) {
+        List<String> res = new ArrayList<>();
+        for (char[] row : board) {
+            res.add(new String(row));
         }
         return res;
     }
-   
 }
-    
- 
