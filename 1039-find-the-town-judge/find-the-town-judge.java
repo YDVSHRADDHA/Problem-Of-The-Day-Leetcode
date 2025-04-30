@@ -1,26 +1,20 @@
-import java.util.HashMap;
-import java.util.Map;
-
 class Solution {
     public int findJudge(int n, int[][] trust) {
-        if (n == 1 && trust.length == 0) {
-            return 1;
-        }
-        Map<Integer, Integer> inDegree = new HashMap<>();
-        Map<Integer, Integer> outDegree = new HashMap<>();
+    int[] trustScore = new int[n + 1];
 
-        for (int[] relationship : trust) {
-            outDegree.put(relationship[0], outDegree.getOrDefault(relationship[0], 0) + 1);
-            inDegree.put(relationship[1], inDegree.getOrDefault(relationship[1], 0) + 1);
-        }
-
-        for (int i = 1; i <= n; i++) {
-            if (inDegree.getOrDefault(i, 0) == n - 1 && !outDegree.containsKey(i)) {
-                return i;
-            }
-        }
-
-        return -1;
-
+    for (int[] t : trust) {
+        int a = t[0];
+        int b = t[1];
+        trustScore[a]--;  // a trusts someone
+        trustScore[b]++;  // b is trusted by someone
     }
+
+    for (int i = 1; i <= n; i++) {
+        if (trustScore[i] == n - 1) {
+            return i;  // found the judge
+        }
+    }
+
+    return -1;  // no judge found
+}
 }
