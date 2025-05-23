@@ -16,6 +16,9 @@
 // }
 
 
+
+// Space Optimization:
+// We only use the last two values, so we can optimize:
 class Solution {
     public int minCostClimbingStairs(int[] cost) {
         int prev2 = 0, prev1 = 0;
