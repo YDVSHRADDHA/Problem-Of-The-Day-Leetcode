@@ -1,31 +1,17 @@
-public class Solution {
+class Solution {
     public int longestDecomposition(String text) {
-        int left = 0, right = text.length() - 1;
-        int count = 0;
-
-        while (left <= right) {
-            boolean found = false;
-
-            // Try increasing chunk size from left and right to find matching chunks
-            for (int size = 1; left + size - 1 < right - size + 1; size++) {
-                String leftChunk = text.substring(left, left + size);
-                String rightChunk = text.substring(right - size + 1, right + 1);
-
-                if (leftChunk.equals(rightChunk)) {
-                    count += (left + size - 1 == right - size + 1) ? 1 : 2;
-                    left += size;
-                    right -= size;
-                    found = true;
-                    break;
-                }
-            }
-
-            // If no matching chunk found, the remaining string is one chunk
-            if (!found) {
-                count++;
-                break;
+        int n = text.length();
+        if (n == 0) return 0;
+        
+        for (int length = 1; length <= n / 2; length++) {
+            String prefix = text.substring(0, length);
+            String suffix = text.substring(n - length);
+            if (prefix.equals(suffix)) {
+                // Matched chunk found, count 2 and recurse for middle
+                return 2 + longestDecomposition(text.substring(length, n - length));
             }
         }
-        return count;
+        // No matching prefix-suffix chunk, count whole string as one chunk
+        return 1;
     }
 }
