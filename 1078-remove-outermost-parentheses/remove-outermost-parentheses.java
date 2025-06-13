@@ -5,11 +5,11 @@ public class Solution {
 
         for (char ch : s.toCharArray()) {
             if (ch == '(') {
-                if (open > 0) result.append(ch); // skip outermost '('
+                if (open > 0) result.append(ch); // Not the outermost
                 open++;
-            } else if (ch == ')') {
+            } else { // ch == ')'
                 open--;
-                if (open > 0) result.append(ch); // skip outermost ')'
+                if (open > 0) result.append(ch); // Not the outermost
             }
         }
 
