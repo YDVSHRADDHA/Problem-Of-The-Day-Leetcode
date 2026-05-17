@@ -1,31 +1,30 @@
-import java.util.*;
-
 class Solution {
     public boolean canReach(int[] arr, int start) {
-        Queue<Integer> queue = new LinkedList<>();
-        queue.add(start);
+        boolean[] visited = new boolean[arr.length];
+        return dfs(arr, start, visited);
+    }
 
-        while (!queue.isEmpty()) {
-            int i = queue.poll();
-            
-            // If we found a zero, return true
-            if (arr[i] == 0) return true;
+    private boolean dfs(int[] arr, int index, boolean[] visited) {
 
-            // Skip if already visited
-            if (arr[i] < 0) continue;
-
-            // Possible next moves
-            int forward = i + arr[i];
-            int backward = i - arr[i];
-
-            // Mark visited
-            arr[i] = -1;
-
-            // Add next moves if within bounds
-            if (forward < arr.length) queue.add(forward);
-            if (backward >= 0) queue.add(backward);
+        // Out of bounds
+        if (index < 0 || index >= arr.length) {
+            return false;
         }
 
-        return false;
+        // Already visited
+        if (visited[index]) {
+            return false;
+        }
+
+        // Found zero
+        if (arr[index] == 0) {
+            return true;
+        }
+
+        visited[index] = true;
+
+        // Try both directions
+        return dfs(arr, index + arr[index], visited) ||
+               dfs(arr, index - arr[index], visited);
     }
 }
